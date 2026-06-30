@@ -1,21 +1,40 @@
-# Britni's Window Empire Growth Review
+# Britni Window Empire × Angi Growth Review
 
-Static executive review site for publishing through GitHub and Vercel.
+A polished, interactive, customer-facing web presentation based on the first 13 slides of the Britni Window Empire Angi QBR deck.
 
-## Files
+## What is included
 
-- `index.html` - site content and section structure
-- `styles.css` - visual system and responsive layouts
-- `app.js` - charts, filters, present mode, and spend scenario model
-- `vercel.json` - clean URL configuration
+- `index.html` — the single-page interactive presentation
+- `styles.css` — Angi/Britni-themed executive styling
+- `app.js` — interactive charts, filters, scenario slider, and present mode
+- `assets/` — optimized web images used in the presentation
+- `vercel.json` — static-site rewrite support
 
-## Deploy To Vercel
+## Deploy to Vercel through GitHub
 
-1. Put these files at the root of your GitHub repository.
-2. In Vercel, import the repository.
-3. Use Framework Preset: `Other`.
-4. Leave Build Command blank.
-5. Leave Output Directory blank.
+1. Create a new GitHub repository.
+2. Upload this folder's contents to the repo root.
+3. In Vercel, choose **Add New Project** and import the repo.
+4. Choose **Other** as the framework preset if prompted.
+5. Leave the build command blank; this is a static site.
 6. Deploy.
 
-If Vercel returns `404: NOT_FOUND`, confirm that `index.html` is at the repository root or set Vercel's Root Directory to the folder that contains `index.html`.
+## Local preview
+
+Open `index.html` directly in a browser, or run a local static server:
+
+```bash
+python3 -m http.server 3000
+```
+
+Then visit `http://localhost:3000`.
+
+## Presentation controls
+
+- Use the left navigation to jump between sections.
+- Use **Present mode** for a cleaner presentation experience.
+- In Present mode, use the left/right arrows or keyboard arrow keys to navigate.
+
+## Note on external references
+
+The Product Enablement section includes links to public Angi and ServiceTitan reference materials. Keep or replace those links based on the interview team's preference.
