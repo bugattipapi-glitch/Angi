@@ -1,337 +1,273 @@
-const fmtCurrency = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
+const COLORS = {
+  angi: '#f15a5b', navy: '#0b2d42', blue: '#2c7da0', gold: '#f4b942',
+  green: '#1b9a59', red: '#b94a48', orange: '#d97706', slate: '#64748b'
+};
+
+const pages = [...document.querySelectorAll('.page')];
+const nav = document.getElementById('chapterNav');
+pages.forEach((page, i) => {
+  const a = document.createElement('a');
+  a.href = `#${page.id}`;
+  a.dataset.num = String(i + 1).padStart(2, '0');
+  a.textContent = page.dataset.title;
+  nav.appendChild(a);
+});
+const navLinks = [...nav.querySelectorAll('a')];
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`));
+      currentIndex = pages.findIndex(p => p.id === entry.target.id);
+      updatePresentCount();
+    }
+  });
+}, { threshold: 0.55 });
+pages.forEach(p => observer.observe(p));
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progressBar').style.width = `${Math.min(100, (scrollTop / docHeight) * 100)}%`;
 });
 
-const fmtNumber = new Intl.NumberFormat("en-US");
+function moneyK(n) { return `$${n.toFixed(n < 10 ? 1 : 0)}K`; }
+function money(n) { return `$${Math.round(n).toLocaleString()}`; }
+function pct(n) { return `${n.toFixed(n % 1 === 0 ? 0 : 1)}%`; }
+function roas(n) { return `${n.toFixed(2)}x`; }
 
-const funnelData = [
-  { label: "Leads", value: "1,062", note: "Angi leads received", fill: 1 },
-  { label: "Set", value: "181", note: "17.0% of leads", fill: 0.72 },
-  { label: "Issue", value: "136", note: "75.1% of set appts.", fill: 0.6 },
-  { label: "Demo", value: "117", note: "86.0% of issued", fill: 0.52 },
-  { label: "Sold", value: "40", note: "34.2% of demos", fill: 0.34 },
-];
+function verticalBars(el, data, opts = {}) {
+  const node = typeof el === 'string' ? document.getElementById(el) : el;
+  node.innerHTML = '';
+  const max = opts.max ?? Math.max(...data.map(d => d.value));
+  data.forEach(d => {
+    const item = document.createElement('div');
+    item.className = 'barItem';
+    const val = document.createElement('div');
+    val.className = 'barVal';
+    val.textContent = d.display ?? d.value;
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = `${Math.max(2, (d.value / max) * 100)}%`;
+    bar.style.background = d.color ?? COLORS.blue;
+    const label = document.createElement('div');
+    label.className = 'barLabel';
+    label.textContent = d.label;
+    item.append(val, bar, label);
+    node.appendChild(item);
+  });
+}
 
-const callRows = [
-  { label: "<=20 calls", leads: 718, calls: 3724, sold: 39, net: 262686 },
-  { label: ">20 calls", leads: 344, calls: 16630, sold: 1, net: 0 },
+function horizontalBars(el, data, opts = {}) {
+  const node = typeof el === 'string' ? document.getElementById(el) : el;
+  node.innerHTML = '';
+  const max = opts.max ?? Math.max(...data.map(d => d.value));
+  data.forEach(d => {
+    const row = document.createElement('div');
+    row.className = 'hRow';
+    row.innerHTML = `
+      <div class="hRowLabel">${d.label}</div>
+      <div class="hTrack"><div class="hFill" style="width:${Math.max(2,(d.value/max)*100)}%; background:${d.color ?? COLORS.blue}"></div></div>
+      <div class="hValue">${d.display}</div>`;
+    node.appendChild(row);
+  });
+}
+
+function createTable(el, headers, rows) {
+  const table = typeof el === 'string' ? document.getElementById(el) : el;
+  table.innerHTML = '';
+  const thead = document.createElement('thead');
+  thead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+  const tbody = document.createElement('tbody');
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = r.map(c => `<td>${c}</td>`).join('');
+    tbody.appendChild(tr);
+  });
+  table.append(thead, tbody);
+}
+
+verticalBars('revenueChart', [
+  { label: 'Spend', value: 90, display: '$90K', color: COLORS.angi },
+  { label: 'Gross revenue', value: 312, display: '$312K', color: COLORS.blue },
+  { label: 'Net revenue', value: 263, display: '$263K', color: COLORS.green },
+], { max: 330 });
+
+const funnel = [
+  { stage: 'Leads', count: '1,062', conversion: '100%' },
+  { stage: 'Set', count: '181', conversion: '17.0%', highlight: true },
+  { stage: 'Issue', count: '136', conversion: '75.1%' },
+  { stage: 'Demo', count: '117', conversion: '86.0%' },
+  { stage: 'Sold', count: '40', conversion: '34.2%', final: true },
 ];
+document.getElementById('funnelViz').innerHTML = funnel.map(f => `
+  <div class="funnelStage ${f.highlight ? 'highlight' : ''} ${f.final ? 'final' : ''}">
+    <span>${f.stage}</span><strong>${f.count}</strong><small>${f.conversion}</small>
+  </div>`).join('');
+
+verticalBars('conversionChart', [
+  { label: 'Lead → Set', value: 17.0, display: '17.0%', color: COLORS.orange },
+  { label: 'Set → Issue', value: 75.1, display: '75.1%', color: COLORS.blue },
+  { label: 'Issue → Demo', value: 86.0, display: '86.0%', color: COLORS.green },
+  { label: 'Demo → Sold', value: 34.2, display: '34.2%', color: COLORS.gold },
+  { label: 'Lead → Sold', value: 3.8, display: '3.8%', color: COLORS.angi },
+], { max: 100 });
+
+verticalBars('callActivityChart', [
+  { label: '≤20 calls', value: 3724, display: '3,724', color: COLORS.blue },
+  { label: '>20 calls', value: 16630, display: '16,630', color: COLORS.orange },
+], { max: 17000 });
+verticalBars('callRevenueChart', [
+  { label: '≤20 calls', value: 263, display: '$262.7K', color: COLORS.green },
+  { label: '>20 calls', value: 0.1, display: '$0', color: COLORS.red },
+], { max: 270 });
+verticalBars('agedLeadChart', [
+  { label: '<10 calls', value: 355, display: '355 / 47%', color: COLORS.blue },
+  { label: '10–19 calls', value: 76, display: '76 / 10%', color: COLORS.gold },
+  { label: '20+ calls', value: 332, display: '332 / 44%', color: COLORS.orange },
+], { max: 380 });
 
 const stateProduct = [
-  { key: "RI Patio Slider", leads: 2, estSpend: 169, netRevenue: 5267, netRoas: 31.08, category: "test" },
-  { key: "NJ Patio Slider", leads: 17, estSpend: 1441, netRevenue: 25492, netRoas: 17.69, category: "test" },
-  { key: "NJ Windows", leads: 116, estSpend: 9831, netRevenue: 40658, netRoas: 4.14, category: "scale" },
-  { key: "DE Doors", leads: 68, estSpend: 5763, netRevenue: 22650, netRoas: 3.93, category: "scale" },
-  { key: "CT Doors", leads: 124, estSpend: 10508, netRevenue: 40045, netRoas: 3.81, category: "scale" },
-  { key: "VA Doors", leads: 124, estSpend: 10508, netRevenue: 39875, netRoas: 3.79, category: "scale" },
-  { key: "NY Doors", leads: 59, estSpend: 5000, netRevenue: 17497, netRoas: 3.5, category: "scale" },
-  { key: "RI Doors", leads: 56, estSpend: 4746, netRevenue: 10600, netRoas: 2.23, category: "optimize" },
-  { key: "NJ Doors", leads: 365, estSpend: 30932, netRevenue: 60602, netRoas: 1.96, category: "optimize" },
-  { key: "CT Windows", leads: 63, estSpend: 5339, netRevenue: 0, netRoas: 0, category: "investigate" },
-  { key: "NY Windows", leads: 39, estSpend: 3305, netRevenue: 0, netRoas: 0, category: "investigate" },
-  { key: "PA Doors", leads: 11, estSpend: 932, netRevenue: 0, netRoas: 0, category: "investigate" },
-  { key: "CT Patio Slider", leads: 4, estSpend: 339, netRevenue: 0, netRoas: 0, category: "test" },
-  { key: "DE Patio Slider", leads: 4, estSpend: 339, netRevenue: 0, netRoas: 0, category: "test" },
-  { key: "VA Patio Slider", leads: 4, estSpend: 339, netRevenue: 0, netRoas: 0, category: "test" },
-  { key: "NY Patio Slider", leads: 3, estSpend: 254, netRevenue: 0, netRoas: 0, category: "test" },
+  { segment: 'RI Patio Slider', leads: 2, spend: 0.2, revenue: 5.3, roas: 31.08, color: COLORS.green },
+  { segment: 'NJ Patio Slider', leads: 17, spend: 1.4, revenue: 25.5, roas: 17.69, color: COLORS.green },
+  { segment: 'NJ Windows', leads: 116, spend: 9.8, revenue: 40.7, roas: 4.14, color: COLORS.green },
+  { segment: 'DE Doors', leads: 68, spend: 5.8, revenue: 22.7, roas: 3.93, color: COLORS.gold },
+  { segment: 'CT Doors', leads: 124, spend: 10.5, revenue: 40.0, roas: 3.81, color: COLORS.blue },
+  { segment: 'VA Doors', leads: 124, spend: 10.5, revenue: 39.9, roas: 3.79, color: COLORS.blue },
+  { segment: 'NY Doors', leads: 59, spend: 5.0, revenue: 17.5, roas: 3.50, color: COLORS.blue },
+  { segment: 'RI Doors', leads: 56, spend: 4.7, revenue: 10.6, roas: 2.23, color: COLORS.orange },
+  { segment: 'NJ Doors', leads: 365, spend: 30.9, revenue: 60.6, roas: 1.96, color: COLORS.angi },
+  { segment: 'CT Windows', leads: 63, spend: 5.3, revenue: 0, roas: 0, color: COLORS.red },
+  { segment: 'PA Doors', leads: 11, spend: 0.9, revenue: 0, roas: 0, color: COLORS.red },
+  { segment: 'CT Patio Slider', leads: 4, spend: 0.3, revenue: 0, roas: 0, color: COLORS.red },
+  { segment: 'DE Patio Slider', leads: 4, spend: 0.3, revenue: 0, roas: 0, color: COLORS.red },
+  { segment: 'VA Patio Slider', leads: 4, spend: 0.3, revenue: 0, roas: 0, color: COLORS.red },
+  { segment: 'NY Patio Slider', leads: 3, spend: 0.3, revenue: 0, roas: 0, color: COLORS.red },
 ];
+const maxStateRoas = Math.max(...stateProduct.map(d => d.roas));
+const minStateRoas = Math.min(...stateProduct.map(d => d.roas));
+function roasCell(d) {
+  const klass = d.roas === maxStateRoas ? 'roasHigh' : d.roas === minStateRoas ? 'roasLow' : '';
+  return `<span class="${klass}">${roas(d.roas)}</span>`;
+}
+createTable('stateProductTable', ['State / Product', 'Leads', 'Est. Spend', 'Net Revenue', 'Net ROAS'],
+  stateProduct.map(d => [d.segment, d.leads.toLocaleString(), moneyK(d.spend), moneyK(d.revenue), roasCell(d)]));
 
-const matrix = [
-  {
-    id: "scale",
-    title: "Scale / protect",
-    copy: "Positive ROAS with enough volume to justify immediate moderate investment.",
-    items: ["NJ Windows", "CT Doors", "VA Doors", "DE Doors", "NY Doors"],
-  },
-  {
-    id: "test",
-    title: "Test carefully",
-    copy: "Strong signal or strategic fit, but lower sample size requires a capped test.",
-    items: ["NJ Patio Slider", "RI Patio Slider", "Other Patio Slider pockets"],
-  },
-  {
-    id: "optimize",
-    title: "Optimize core",
-    copy: "Important volume pools where conversion discipline should improve return.",
-    items: ["NJ Doors", "RI Doors"],
-  },
-  {
-    id: "investigate",
-    title: "Investigate / pause",
-    copy: "Low or no net return in current data; inspect targeting and lead handling.",
-    items: ["CT Windows", "NY Windows", "PA Doors"],
-  },
+const stateChartTitle = document.getElementById('stateChartTitle');
+const stateChartSub = document.getElementById('stateChartSub');
+function renderStateChart(type = 'spend') {
+  const config = {
+    spend: { key: 'spend', title: 'Estimated spend', sub: 'Top segments by allocated spend', formatter: moneyK },
+    roas: { key: 'roas', title: 'Net ROAS', sub: 'Return by state/product', formatter: roas },
+    revenue: { key: 'revenue', title: 'Net revenue', sub: 'Revenue by state/product', formatter: moneyK },
+  }[type];
+  stateChartTitle.textContent = config.title;
+  stateChartSub.textContent = config.sub;
+  const data = [...stateProduct]
+    .sort((a, b) => b[config.key] - a[config.key])
+    .map(d => ({
+      label: d.segment,
+      value: d[config.key],
+      display: config.formatter(d[config.key]),
+      color: type === 'roas' && d.roas === maxStateRoas ? COLORS.green : type === 'roas' && d.roas === minStateRoas ? COLORS.red : d.color
+    }));
+  horizontalBars('stateProductChart', data, { max: Math.max(...data.map(d => d.value)) || 1 });
+}
+renderStateChart();
+document.querySelectorAll('[data-chart]').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('[data-chart]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStateChart(btn.dataset.chart);
+}));
+
+const quadrants = [
+  { id: 'scale', title: 'Scale / protect', color: COLORS.green, items: ['NJ Windows: 116 leads | 4.14x ROAS', 'CT Doors: 124 leads | 3.81x ROAS', 'VA Doors: 124 leads | 3.79x ROAS', 'DE Doors: 68 leads | 3.93x ROAS', 'NY Doors: 59 leads | 3.50x ROAS'] },
+  { id: 'optimize', title: 'Optimize core', color: COLORS.orange, items: ['NJ Doors: largest segment | 1.96x ROAS', 'RI Doors: 56 leads | 2.23x ROAS', 'Improve routing + close discipline while protecting core volume'] },
+  { id: 'test', title: 'Test carefully', color: COLORS.gold, items: ['NJ Patio Slider: 17 leads | 17.69x ROAS', 'RI Patio Slider: 2 leads | 31.08x ROAS', 'Strong signal, low sample — validate with controlled volume'] },
+  { id: 'pause', title: 'Investigate / pause', color: COLORS.red, items: ['CT Windows: 63 leads | $0 net revenue', 'NY Windows: 39 leads | $0 net revenue', 'PA Doors: 11 leads | $0 net revenue', 'Review fit, pricing, availability, and lead quality'] },
 ];
+const filterWrap = document.getElementById('matrixFilters');
+filterWrap.innerHTML = `<button class="chip active" data-filter="all">All</button>` + quadrants.map(q => `<button class="chip" data-filter="${q.id}">${q.title}</button>`).join('');
+document.getElementById('growthMatrix').innerHTML = quadrants.map(q => `
+  <article class="quadrant" data-quad="${q.id}" style="border-color:${q.color}">
+    <h3 style="background:${q.color}">${q.title}</h3>
+    <ul>${q.items.map(i => `<li>${i}</li>`).join('')}</ul>
+  </article>`).join('');
+filterWrap.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+  filterWrap.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const f = btn.dataset.filter;
+  document.querySelectorAll('[data-quad]').forEach(q => q.classList.toggle('hide', f !== 'all' && q.dataset.quad !== f));
+}));
 
-function initFunnel() {
-  const root = document.querySelector("#funnelGrid");
-  root.innerHTML = funnelData
-    .map(
-      (item) => `
-        <article class="funnel-card" style="--fill:${item.fill}">
-          <span>${item.label}</span>
-          <strong>${item.value}</strong>
-          <p>${item.note}</p>
-        </article>
-      `,
-    )
-    .join("");
-}
+const roadmap = [
+  { title: 'Week 1: setup', items: ['Enable automated responses', 'Confirm lead ownership / CRM routing', 'Define lead lifecycle stages'] },
+  { title: 'Weeks 2–3: run sprint', items: ['15-minute speed-to-lead SLA', 'Multi-channel outreach cadence', 'Daily review of new + high-intent leads'] },
+  { title: 'Week 4: inspect', items: ['Review set rate by state/product', 'Audit >20-call exceptions', 'Identify scale-ready segments'] },
+  { title: 'Next QBR', items: ['Compare conversion vs. baseline', 'Finalize budget reallocation', 'Approve controlled expansion test'] },
+];
+document.getElementById('roadmap').innerHTML = roadmap.map((r, i) => `
+  <article class="roadItem"><span>${i + 1}</span><h3>${r.title}</h3><ul>${r.items.map(v => `<li>${v}</li>`).join('')}</ul></article>`).join('');
 
-function initCallComparison() {
-  const maxCalls = Math.max(...callRows.map((row) => row.calls));
-  const root = document.querySelector("#callComparison");
-  root.innerHTML = `
-    <div class="chart-title">
-      <strong>Lead effort comparison</strong>
-      <span>Numbers shown by segment</span>
-    </div>
-    ${callRows
-      .map((row) => {
-        const width = Math.max(6, (row.calls / maxCalls) * 100);
-        return `
-          <div class="comparison-row">
-            <span>${row.label}</span>
-            <span class="bar-track"><span style="width:${width}%"></span></span>
-            <b>${fmtNumber.format(row.calls)} calls</b>
-          </div>
-          <div class="comparison-row">
-            <span>Leads</span>
-            <span class="bar-track"><span style="width:${Math.max(6, (row.leads / 718) * 100)}%"></span></span>
-            <b>${fmtNumber.format(row.leads)}</b>
-          </div>
-          <div class="comparison-row">
-            <span>Sold</span>
-            <span class="bar-track"><span style="width:${Math.max(3, (row.sold / 39) * 100)}%"></span></span>
-            <b>${fmtNumber.format(row.sold)}</b>
-          </div>
-          <div class="comparison-row">
-            <span>Net rev.</span>
-            <span class="bar-track"><span style="width:${row.net ? 100 : 3}%"></span></span>
-            <b>${fmtCurrency.format(row.net)}</b>
-          </div>
-        `;
-      })
-      .join("")}
-  `;
-}
-
-function metricValue(row, metric) {
-  if (metric === "estSpend") return row.estSpend;
-  if (metric === "netRevenue") return row.netRevenue;
-  return row.netRoas;
-}
-
-function metricLabel(value, metric) {
-  if (metric === "netRoas") return `${value.toFixed(2)}x`;
-  return fmtCurrency.format(value);
-}
-
-function renderStateProduct(metric = "estSpend") {
-  const titleMap = {
-    estSpend: "Estimated spend by state/product",
-    netRevenue: "Net revenue by state/product",
-    netRoas: "Net ROAS by state/product",
-  };
-  document.querySelector("#stateChartTitle").textContent = titleMap[metric];
-
-  const sorted = [...stateProduct].sort((a, b) => metricValue(b, metric) - metricValue(a, metric));
-  const max = Math.max(...sorted.map((row) => metricValue(row, metric))) || 1;
-  const maxRoas = Math.max(...stateProduct.map((row) => row.netRoas));
-  const minRoas = Math.min(...stateProduct.map((row) => row.netRoas));
-
-  document.querySelector("#stateBars").innerHTML = sorted
-    .slice(0, 10)
-    .map((row) => {
-      const value = metricValue(row, metric);
-      const width = Math.max(3, (value / max) * 100);
-      const tone = row.netRoas === maxRoas ? "high" : row.netRoas === minRoas ? "low" : "";
-      return `
-        <div class="dynamic-bar">
-          <span class="dynamic-label">${row.key}</span>
-          <span class="dynamic-track ${tone}"><span style="width:${width}%"></span></span>
-          <strong class="dynamic-value ${tone}">${metricLabel(value, metric)}</strong>
-        </div>
-      `;
-    })
-    .join("");
-
-  document.querySelector("#stateTable").innerHTML = stateProduct
-    .map((row) => {
-      const className = row.netRoas === maxRoas ? "high-roas" : row.netRoas === minRoas ? "low-roas" : "";
-      return `
-        <tr class="${className}">
-          <td>${row.key}</td>
-          <td>${fmtNumber.format(row.leads)}</td>
-          <td>${fmtCurrency.format(row.estSpend)}</td>
-          <td>${fmtCurrency.format(row.netRevenue)}</td>
-          <td>${row.netRoas.toFixed(2)}x</td>
-        </tr>
-      `;
-    })
-    .join("");
-}
-
-function initMetricButtons() {
-  document.querySelectorAll(".toolbar .chip").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".toolbar .chip").forEach((chip) => chip.classList.remove("active"));
-      button.classList.add("active");
-      renderStateProduct(button.dataset.metric);
-    });
-  });
-}
-
-function renderMatrix(filter = "all") {
-  const root = document.querySelector("#matrixGrid");
-  const cards = filter === "all" ? matrix : matrix.filter((card) => card.id === filter);
-  root.innerHTML = cards
-    .map(
-      (card) => `
-        <article class="matrix-card ${card.id}">
-          <h3>${card.title}</h3>
-          <p>${card.copy}</p>
-          <ul>${card.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-        </article>
-      `,
-    )
-    .join("");
-}
-
-function initMatrixButtons() {
-  document.querySelectorAll(".matrix-controls .chip").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".matrix-controls .chip").forEach((chip) => chip.classList.remove("active"));
-      button.classList.add("active");
-      renderMatrix(button.dataset.filter);
-    });
-  });
-}
-
+const setRateSlider = document.getElementById('setRateSlider');
 function renderScenario() {
-  const slider = document.querySelector("#spendSlider");
-  const spend = Number(slider.value);
+  const spend = Number(setRateSlider.value);
   const baselineSpend = 15000;
-  const baselineMonthlyRevenue = 262686 / 6;
-  const baselineRoas = baselineMonthlyRevenue / baselineSpend;
+  const baselineRevenue = 262686 / 6;
+  const baselineRoas = baselineRevenue / baselineSpend;
   const smarterIncrementalRoas = 4.19;
   const incrementalRevenue = spend * smarterIncrementalRoas;
-  const totalSpend = baselineSpend + spend;
-  const projectedRevenue = baselineMonthlyRevenue + incrementalRevenue;
-  const projectedRoas = projectedRevenue / totalSpend;
-  const roasLift = projectedRoas - baselineRoas;
-
-  document.querySelector("#spendValue").textContent = fmtCurrency.format(spend);
-  document.querySelector("#scenarioResults").innerHTML = `
-    <article class="scenario-card">
-      <span>Baseline net ROAS</span>
-      <strong>${baselineRoas.toFixed(2)}x</strong>
-      <p>Current monthly run-rate using the $15K baseline spend.</p>
-    </article>
-    <article class="scenario-card">
-      <span>Smarter spend ROAS</span>
-      <strong>${smarterIncrementalRoas.toFixed(2)}x</strong>
-      <p>Estimated return from directing new spend to stronger pockets.</p>
-    </article>
-    <article class="scenario-card">
-      <span>Projected net ROAS</span>
-      <strong>${projectedRoas.toFixed(2)}x</strong>
-      <p>Total projected net revenue divided by total monthly spend.</p>
-    </article>
-    <article class="scenario-card">
-      <span>Estimated ROAS lift</span>
-      <strong>+${roasLift.toFixed(2)}x</strong>
-      <p>${fmtCurrency.format(incrementalRevenue)} estimated incremental monthly net revenue.</p>
-    </article>
-  `;
+  const projectedRevenue = baselineRevenue + incrementalRevenue;
+  const projectedSpend = baselineSpend + spend;
+  const projectedRoas = projectedRevenue / projectedSpend;
+  const lift = projectedRoas - baselineRoas;
+  document.getElementById('scenarioMetrics').innerHTML = `
+    <div class="miniMetric"><span>Incremental spend</span><b>${money(spend)}</b></div>
+    <div class="miniMetric"><span>Smarter spend ROAS</span><b>${roas(smarterIncrementalRoas)}</b></div>
+    <div class="miniMetric"><span>Projected net ROAS</span><b>${roas(projectedRoas)}</b></div>
+    <div class="miniMetric"><span>Estimated lift</span><b>+${roas(lift)}</b></div>`;
+  verticalBars('scenarioChart', [
+    { label: 'Current monthly', value: baselineRevenue / 1000, display: moneyK(baselineRevenue / 1000), color: COLORS.blue },
+    { label: 'Projected monthly', value: projectedRevenue / 1000, display: moneyK(projectedRevenue / 1000), color: COLORS.green },
+  ], { max: 80 });
 }
+setRateSlider.addEventListener('input', renderScenario);
+renderScenario();
 
-function initScenario() {
-  const slider = document.querySelector("#spendSlider");
-  slider.addEventListener("input", renderScenario);
-  renderScenario();
+createTable('measurementTable', ['Focus area', 'Primary metric', 'Watch metric', 'Action trigger'], [
+  ['Response discipline', 'Speed-to-lead', '% first touch <15 minutes', 'Automated response enabled'],
+  ['Lead lifecycle', 'New leads by status', '30+ day unset volume', '>20-call exceptions'],
+  ['Funnel health', 'Lead → Set', 'Issue → Demo', 'Demo → Sold'],
+  ['Economics', 'Net ROAS', 'Cost per sold job', 'Net revenue per lead'],
+  ['Allocation', 'State/product ROAS', 'Budget mix by segment', 'Capacity by state/product'],
+]);
+
+let currentIndex = 0;
+const controls = document.getElementById('presentControls');
+function updatePresentCount() {
+  const count = document.getElementById('presentCount');
+  if (count) count.textContent = `${currentIndex + 1} / ${pages.length}`;
 }
-
-function initNavSpy() {
-  const links = [...document.querySelectorAll(".slide-nav a")];
-  const sections = [...document.querySelectorAll(".slide")];
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      links.forEach((link) => {
-        link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`);
-      });
-    },
-    { threshold: [0.35, 0.6] },
-  );
-  sections.forEach((section) => observer.observe(section));
+function goToIndex(i) {
+  currentIndex = Math.max(0, Math.min(pages.length - 1, i));
+  pages[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  updatePresentCount();
 }
-
-function initPresentMode() {
-  const sections = [...document.querySelectorAll(".slide")];
-  const toggle = document.querySelector("#presentToggle");
-  const prev = document.querySelector("#prevSection");
-  const next = document.querySelector("#nextSection");
-  const exit = document.querySelector("#exitPresent");
-  const counter = document.querySelector("#sectionCounter");
-  let index = 0;
-
-  function update() {
-    sections.forEach((section, idx) => section.classList.toggle("current", idx === index));
-    counter.textContent = `${index + 1} / ${sections.length}`;
-    if (document.body.classList.contains("presenting")) {
-      sections[index].scrollIntoView({ block: "start" });
-    }
-  }
-
-  toggle.addEventListener("click", () => {
-    document.body.classList.toggle("presenting");
-    toggle.textContent = document.body.classList.contains("presenting") ? "Exit present mode" : "Present mode";
-    const current = sections.findIndex((section) => {
-      const rect = section.getBoundingClientRect();
-      return rect.top <= 120 && rect.bottom > 120;
-    });
-    index = current >= 0 ? current : index;
-    update();
-  });
-
-  exit.addEventListener("click", () => {
-    document.body.classList.remove("presenting");
-    toggle.textContent = "Present mode";
-    update();
-  });
-
-  prev.addEventListener("click", () => {
-    index = Math.max(0, index - 1);
-    update();
-  });
-
-  next.addEventListener("click", () => {
-    index = Math.min(sections.length - 1, index + 1);
-    update();
-  });
-
-  window.addEventListener("keydown", (event) => {
-    if (!document.body.classList.contains("presenting")) return;
-    if (event.key === "ArrowRight" || event.key === "PageDown") next.click();
-    if (event.key === "ArrowLeft" || event.key === "PageUp") prev.click();
-    if (event.key === "Escape") toggle.click();
-  });
-
-  update();
-}
-
-initFunnel();
-initCallComparison();
-renderStateProduct();
-initMetricButtons();
-renderMatrix();
-initMatrixButtons();
-initScenario();
-initNavSpy();
-initPresentMode();
+document.getElementById('presentBtn').addEventListener('click', () => {
+  document.body.classList.add('presenting');
+  controls.hidden = false;
+  updatePresentCount();
+});
+document.getElementById('exitPresent').addEventListener('click', () => {
+  document.body.classList.remove('presenting');
+  controls.hidden = true;
+});
+document.getElementById('nextSlide').addEventListener('click', () => goToIndex(currentIndex + 1));
+document.getElementById('prevSlide').addEventListener('click', () => goToIndex(currentIndex - 1));
+document.getElementById('overviewBtn').addEventListener('click', () => document.getElementById('summary').scrollIntoView({ behavior: 'smooth' }));
+window.addEventListener('keydown', e => {
+  if (!document.body.classList.contains('presenting')) return;
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') goToIndex(currentIndex + 1);
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') goToIndex(currentIndex - 1);
+  if (e.key === 'Escape') document.getElementById('exitPresent').click();
+});
