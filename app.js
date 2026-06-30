@@ -152,7 +152,7 @@ function renderStateProduct(metric = "estSpend") {
         <div class="dynamic-bar">
           <span class="dynamic-label">${row.key}</span>
           <span class="dynamic-track ${tone}"><span style="width:${width}%"></span></span>
-          <strong class="dynamic-value">${metricLabel(value, metric)}</strong>
+          <strong class="dynamic-value ${tone}">${metricLabel(value, metric)}</strong>
         </div>
       `;
     })

@@ -532,6 +532,14 @@ p {
   text-align: right;
 }
 
+.dynamic-value.high {
+  color: var(--success);
+}
+
+.dynamic-value.low {
+  color: var(--danger);
+}
+
 .funnel-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
