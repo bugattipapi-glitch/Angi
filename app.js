@@ -255,8 +255,8 @@ function initScenario() {
 }
 
 function initNavSpy() {
-  const links = [...document.querySelectorAll(".topnav a")];
-  const sections = [...document.querySelectorAll(".section")];
+  const links = [...document.querySelectorAll(".slide-nav a")];
+  const sections = [...document.querySelectorAll(".slide")];
   const observer = new IntersectionObserver(
     (entries) => {
       const visible = entries
@@ -273,10 +273,11 @@ function initNavSpy() {
 }
 
 function initPresentMode() {
-  const sections = [...document.querySelectorAll(".section")];
+  const sections = [...document.querySelectorAll(".slide")];
   const toggle = document.querySelector("#presentToggle");
   const prev = document.querySelector("#prevSection");
   const next = document.querySelector("#nextSection");
+  const exit = document.querySelector("#exitPresent");
   const counter = document.querySelector("#sectionCounter");
   let index = 0;
 
@@ -296,6 +297,12 @@ function initPresentMode() {
       return rect.top <= 120 && rect.bottom > 120;
     });
     index = current >= 0 ? current : index;
+    update();
+  });
+
+  exit.addEventListener("click", () => {
+    document.body.classList.remove("presenting");
+    toggle.textContent = "Present mode";
     update();
   });
 
