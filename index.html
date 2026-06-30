@@ -244,7 +244,7 @@
         <div class="sectionHeader compact">
           <div class="eyebrow">Execution plan</div>
           <h2>30-day operating plan</h2>
-          <p>Reset the lead lifecycle, protect rep time, and improve conversion while increasing spend in the strongest pockets.</p>
+          <p>Reset the lead lifecycle, protect rep time, and improve conversion while evaluating measured investment in the strongest pockets.</p>
         </div>
         <div class="roadmap" id="roadmap"></div>
         <div class="takeawayBand amber"><div><b>Operating principle:</b> manual rep time should be reserved for leads with recency, responsiveness, and economic fit; stale leads should move to nurture or closeout.</div></div>
@@ -253,49 +253,44 @@
       <section id="scenario" class="page" data-title="ROAS Scenario">
         <div class="sectionHeader compact">
           <div class="eyebrow">Sensitivity model</div>
-          <h2>ROAS lift from smarter incremental spend</h2>
-          <p>Estimate how an immediate moderate spend increase can lift total ROAS when new dollars are directed toward stronger state/product combinations.</p>
+          <h2>ROAS improvement scenario</h2>
+          <p>Small improvements in Lead → Set conversion create meaningful upside before adding more spend.</p>
         </div>
         <div class="scenarioLayout">
           <div class="sliderPanel">
-            <label for="setRateSlider">Incremental monthly spend</label>
-            <input id="setRateSlider" type="range" min="0" max="7500" value="3000" step="500" />
-            <div class="sliderTicks"><span>$0</span><span>$3K</span><span>$5K</span><span>$7.5K</span></div>
+            <label for="setRateSlider">Lead → Set rate</label>
+            <input id="setRateSlider" type="range" min="17" max="25" value="22" step="1" />
+            <div class="sliderTicks"><span>17%</span><span>20%</span><span>22%</span><span>25%</span></div>
             <div class="scenarioMetrics" id="scenarioMetrics"></div>
-            <p class="chartNote">Assumption: incremental dollars are weighted toward higher-return state/product pockets while core products remain funded.</p>
+            <p class="chartNote">Assumption: downstream conversion and average net revenue per sold job remain constant.</p>
           </div>
-          <div class="chartPanel"><div class="panelHeader"><h3>Projected monthly net revenue</h3><span>dynamic scenario</span></div><div id="scenarioChart" class="barChart"></div></div>
+          <div class="chartPanel"><div class="panelHeader"><h3>Estimated net revenue</h3><span>dynamic scenario</span></div><div id="scenarioChart" class="barChart"></div></div>
         </div>
       </section>
 
-      <section id="growth" class="page light" data-title="Expansion Plan">
+      <section id="growth" class="page light" data-title="Investment Scenario">
         <div class="sectionHeader compact">
           <div class="eyebrow">Growth plan</div>
-          <h2>Increase spend now where the evidence is strongest</h2>
-          <p>Make an immediate moderate investment in promising, higher-return ROAS state/product combinations. Keep core products funded while these early findings are validated on the next review cycle.</p>
+          <h2>Measured investment in the most profitable pockets</h2>
+          <p>Evaluate a measured increase in areas that are proving most profitable while equally prioritizing stronger lead nurturing, faster response, and clearer follow-up rules.</p>
         </div>
-        <div class="expansionGrid">
-          <article><span>1</span><h3>Increase now</h3><p>Add moderate incremental spend to higher-return state/product pockets, with capped tests where sample sizes are smaller.</p></article>
-          <article><span>2</span><h3>Protect core</h3><p>Do not reduce spend on core products yet. Optimize weaker pockets while stronger signals are validated.</p></article>
-          <article><span>3</span><h3>Review next call</h3><p>Inspect Lead-to-Set, sold jobs, net revenue, and ROAS by state/product before expanding further.</p></article>
-        </div>
-        <div class="guardrailBox">
-          <h3>What we will inspect next</h3>
-          <ul>
-            <li>Set rate improves vs. 17% baseline</li>
-            <li>&gt;20-call manual effort declines</li>
-            <li>Net ROAS holds above target</li>
-            <li>State/product mix is controlled</li>
-            <li>Sales / install capacity confirmed</li>
-          </ul>
+        <div class="scenarioLayout">
+          <div class="sliderPanel">
+            <label for="spendSlider">Incremental monthly spend</label>
+            <input id="spendSlider" type="range" min="0" max="7500" value="3000" step="500" />
+            <div class="sliderTicks"><span>$0</span><span>$3K</span><span>$5K</span><span>$7.5K</span></div>
+            <div class="scenarioMetrics" id="spendScenarioMetrics"></div>
+            <p class="chartNote">Assumption: incremental dollars are weighted toward higher-return state/product pockets while core products remain funded.</p>
+          </div>
+          <div class="chartPanel"><div class="panelHeader"><h3>Projected monthly net revenue</h3><span>dynamic scenario</span></div><div id="spendScenarioChart" class="barChart"></div></div>
         </div>
       </section>
 
       <section id="measurement" class="page" data-title="Measurement Plan">
         <div class="sectionHeader compact">
           <div class="eyebrow">Accountability metrics</div>
-          <h2>Moderate increase now, review results on the next call</h2>
-          <p>The next review should measure whether Britni's incremental spend improved conversion quality, resource allocation, and segment-level return.</p>
+          <h2>Review investment performance and lead nurturing progress</h2>
+          <p>The next review should measure whether targeted investment in profitable pockets is improving return while Britni's lead nurturing process becomes faster, cleaner, and more disciplined.</p>
         </div>
         <div class="tableWrap full"><table id="measurementTable"></table></div>
         <div class="decisionRule">
