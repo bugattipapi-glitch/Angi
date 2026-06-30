@@ -209,6 +209,10 @@ p {
   min-height: 470px;
 }
 
+.hero-visual picture {
+  display: block;
+}
+
 .hero-image {
   display: block;
   width: 100%;
@@ -824,6 +828,10 @@ tr.low-roas td:last-child {
   align-content: center;
   min-height: 560px;
   padding: 14px;
+}
+
+.tools-visual picture {
+  display: block;
 }
 
 .tools-visual img {
