@@ -3,316 +3,358 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Britni Window Empire × Angi | Growth Plan</title>
-    <meta name="description" content="Interactive executive review for Britni Window Empire's Angi Leads performance and growth plan." />
-    <link rel="preload" as="image" href="assets/hero-window.webp" />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Britni's Window Empire | Angi Growth Review</title>
+    <meta
+      name="description"
+      content="Executive growth review for Britni's Window Empire: Angi performance, state/product spend allocation, lead processing, and expansion recommendations."
+    />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
-    <aside class="rail" aria-label="Presentation navigation">
-      <div class="brandLockup">
-        <div class="angiLogo">Angi</div>
-        <div>
-          <strong>Britni</strong>
-          <span>Window Empire</span>
-        </div>
-      </div>
-      <nav id="chapterNav"></nav>
-      <div class="railFooter">
-        <button id="overviewBtn" class="ghostBtn">Overview</button>
-        <button id="presentBtn" class="primaryBtn">Present mode</button>
-      </div>
-    </aside>
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="Go to overview">
+        <span class="brand-mark">A</span>
+        <span>
+          <strong>Angi Growth Review</strong>
+          <small>Britni's Window Empire</small>
+        </span>
+      </a>
+      <nav class="topnav" aria-label="Primary">
+        <a href="#summary">Summary</a>
+        <a href="#effort">Time Allocation</a>
+        <a href="#state-product">State/Product</a>
+        <a href="#tools">Angi Tools</a>
+        <a href="#plan">Plan</a>
+      </nav>
+      <button class="present-toggle" type="button" id="presentToggle">Present mode</button>
+    </header>
 
     <main>
-      <section id="hero" class="hero page" data-title="QBR Purpose">
-        <div class="heroCopy">
-          <div class="eyebrow">Jan–June 2025 · Angi Leads Business</div>
-          <h1>Performance Review & Growth Plan</h1>
-          <p>Interactive executive review focused on revenue productivity, state/product spend allocation, lead-processing efficiency, and a controlled path to scale.</p>
-          <div class="heroActions">
-            <a href="#summary" class="primaryBtn big">Start review</a>
-            <a href="#growth" class="ghostBtn big">Jump to recommendation</a>
+      <section class="hero section" id="overview" data-section="Overview">
+        <div class="hero-copy">
+          <p class="eyebrow">Jan-Jun 2025 executive growth review</p>
+          <h1>Turning positive ROAS into smarter, faster growth.</h1>
+          <p class="hero-text">
+            Angi is producing meaningful revenue for Britni's Window Empire. The next step is not simply more leads or more calls. The opportunity is to rebalance spend toward the strongest state/product pockets and protect sales time for the leads most likely to convert.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#summary">Start review</a>
+            <a class="button secondary" href="#scenario">Open spend model</a>
           </div>
         </div>
-        <div class="heroCard">
-          <img src="assets/hero-window.webp" alt="Modern home with large windows" />
-          <div class="heroStats">
-            <div><span>$90K</span><small>Angi spend</small></div>
-            <div><span>1,062</span><small>leads</small></div>
-            <div><span>2.92x</span><small>net ROAS</small></div>
+        <div class="hero-visual">
+          <img class="hero-image" src="./assets/hero-window.webp" alt="Modern home exterior with large black-framed windows" />
+          <div class="floating-stat">
+            <strong>2.92x</strong>
+            <span>Net ROAS</span>
           </div>
         </div>
       </section>
 
-      <section id="summary" class="page light" data-title="Executive Summary">
-        <div class="sectionHeader">
-          <div class="eyebrow">Executive summary</div>
-          <h2>Angi is producing revenue. The next opportunity is better allocation of time and spend.</h2>
-          <p>Britni can improve return by protecting sales time, reallocating budget toward stronger state/product pockets, and using available Angi tools to create faster lead response.</p>
+      <section class="section summary" id="summary" data-section="Summary">
+        <div class="section-heading">
+          <p class="eyebrow">Executive summary</p>
+          <h2>Positive return, with two clear levers for growth.</h2>
+          <p>
+            Britni's is seeing real revenue from Angi, but performance varies sharply by state/product and too much team effort is concentrated in stale, high-call leads.
+          </p>
         </div>
-        <div class="metricGrid four">
-          <article class="metricCard success">
-            <span>Program return</span>
+        <div class="metric-grid">
+          <article class="metric-card">
+            <span>Leads</span>
+            <strong>1,062</strong>
+            <p>Jan-Jun lead volume from Angi.</p>
+          </article>
+          <article class="metric-card">
+            <span>Net revenue</span>
             <strong>$262.7K</strong>
-            <p>Net revenue on $90K spend · 2.92x net ROAS</p>
+            <p>Realized revenue after cancellations and credit declines.</p>
           </article>
-          <article class="metricCard warning">
-            <span>Time allocation</span>
-            <strong>82%</strong>
-            <p>Of total calls went to leads with more than 20 calls</p>
+          <article class="metric-card">
+            <span>Sold jobs</span>
+            <strong>40</strong>
+            <p>3.8% lead-to-sold conversion.</p>
           </article>
-          <article class="metricCard blue">
-            <span>Spend mix</span>
-            <strong>4.14x</strong>
-            <p>NJ Windows net ROAS vs. 1.96x for NJ Doors</p>
-          </article>
-          <article class="metricCard navy">
-            <span>Path forward</span>
-            <strong>Optimize → Test → Scale</strong>
-            <p>Growth with lifecycle, budget, and capacity guardrails</p>
+          <article class="metric-card">
+            <span>Spend</span>
+            <strong>$90K</strong>
+            <p>$15K monthly budget across the period.</p>
           </article>
         </div>
-        <div class="takeawayBand">
+        <div class="takeaway-band">
           <div>
-            <b>Bottom line:</b> do not simply buy more leads or make more calls. Reallocate budget and sales effort toward the opportunities with the clearest economic signal.
+            <strong>Recommendation</strong>
+            <p>
+              Increase spend moderately now in the strongest state/product pockets, while shifting manual follow-up away from low-yield stale leads. Keep core products funded until these early findings are proven across the next review cycle.
+            </p>
           </div>
-          <a href="#state-product" class="textLink">Explore state/product allocation →</a>
+          <a href="#state-product">View state/product evidence</a>
         </div>
       </section>
 
-      <section id="outcome" class="page" data-title="Investment Outcome">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Investment efficiency</div>
-          <h2>Investment → revenue outcome</h2>
-          <p>The program generated positive revenue ROAS. Net revenue is the right executive measure for growth decisions because some sold jobs later produced $0 net revenue.</p>
-        </div>
-        <div class="split">
-          <div class="metricGrid two">
-            <article class="metricCard"><span>Angi spend</span><strong>$90K</strong><p>$15K/month × 6 months</p></article>
-            <article class="metricCard"><span>Leads delivered</span><strong>1,062</strong><p>$84.75 blended CPL</p></article>
-            <article class="metricCard"><span>Sold jobs</span><strong>40</strong><p>3.8% Lead → Sold</p></article>
-            <article class="metricCard success"><span>Net ROAS</span><strong>2.92x</strong><p>$262.7K net revenue</p></article>
+      <section class="section split" id="outcome" data-section="Outcome">
+        <div>
+          <p class="eyebrow">Investment outcome</p>
+          <h2>Angi is already generating an investable return.</h2>
+          <p>
+            At a $90K investment, Britni's produced $312.2K in gross booked revenue and $262.7K in net revenue. That creates a credible basis for expansion, provided the next dollars are targeted more precisely.
+          </p>
+          <div class="inline-stats">
+            <span><b>3.47x</b> gross ROAS</span>
+            <span><b>2.92x</b> net ROAS</span>
+            <span><b>$2,250</b> cost per sold job</span>
           </div>
-          <div class="chartPanel">
-            <div class="panelHeader">
-              <h3>Revenue vs. spend</h3>
-              <span>Values in $000s</span>
+        </div>
+        <div class="chart-panel">
+          <div class="chart-title">
+            <strong>Revenue vs. Spend</strong>
+            <span>Values shown in chart</span>
+          </div>
+          <div class="bar-chart revenue-bars" aria-label="Spend, gross revenue, and net revenue comparison">
+            <div class="bar-row">
+              <span class="bar-label">Spend</span>
+              <span class="bar-track"><span style="width: 29%"></span></span>
+              <strong>$90K</strong>
             </div>
-            <div id="revenueChart" class="barChart"></div>
-            <p class="chartNote">Net revenue is the conservative basis for expansion decisions.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="funnel" class="page light" data-title="Funnel Overview">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Funnel productivity</div>
-          <h2>Funnel performance overview</h2>
-          <p>The largest conversion constraint is early in the process: only 181 of 1,062 leads became set appointments.</p>
-        </div>
-        <div class="funnel" id="funnelViz"></div>
-        <div class="split bottomAlign">
-          <div class="chartPanel">
-            <div class="panelHeader"><h3>Stage conversion</h3><span>Percent</span></div>
-            <div id="conversionChart" class="barChart compactBars"></div>
-          </div>
-          <div class="insightBox amber">
-            <h3>Key diagnostic</h3>
-            <p>Demo → Sold conversion is workable at 34.2%. The larger issue is that too few leads become appointment opportunities in the first place.</p>
-            <p>This makes lead response, lifecycle management, and rep-time allocation more important than simply adding call volume.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="calls" class="page" data-title="Time Allocation">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Time allocation</div>
-          <h2>Call volume is not translating into revenue</h2>
-          <p>Leads with more than 20 calls consumed the majority of activity while producing almost no economic return.</p>
-        </div>
-        <div class="comparisonGrid">
-          <article class="segmentCard good">
-            <h3>≤20 calls</h3>
-            <div class="segmentStats">
-              <span><b>718</b> leads</span><span><b>3,724</b> calls</span><span><b>39</b> sold</span><span><b>$262.7K</b> net revenue</span>
+            <div class="bar-row">
+              <span class="bar-label">Gross rev.</span>
+              <span class="bar-track"><span style="width: 100%"></span></span>
+              <strong>$312K</strong>
             </div>
+            <div class="bar-row">
+              <span class="bar-label">Net rev.</span>
+              <span class="bar-track"><span style="width: 84%"></span></span>
+              <strong>$263K</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section funnel" id="funnel" data-section="Funnel">
+        <div class="section-heading compact">
+          <p class="eyebrow">Funnel context</p>
+          <h2>The funnel matters, but it is not the whole story.</h2>
+          <p>
+            Lead-to-set conversion is a constraint. The bigger operating question is where Britni's team should spend its limited time and where Angi should place the next dollar of budget.
+          </p>
+        </div>
+        <div class="funnel-grid" id="funnelGrid"></div>
+      </section>
+
+      <section class="section split effort-section" id="effort" data-section="Time Allocation">
+        <div>
+          <p class="eyebrow">Time allocation finding</p>
+          <h2>High-call leads consume most activity without producing revenue.</h2>
+          <p>
+            Leads with more than 20 calls represented only 32% of lead volume, but consumed 82% of total call activity. They produced one sold job and $0 net revenue.
+          </p>
+          <div class="callout danger">
+            <strong>16,630 calls</strong>
+            <span>spent on &gt;20-call leads</span>
+          </div>
+        </div>
+        <div class="comparison-panel" id="callComparison"></div>
+      </section>
+
+      <section class="section split aged-section" id="aged-leads" data-section="Aged Leads">
+        <div>
+          <p class="eyebrow">Aged unset leads</p>
+          <h2>Stale leads need a lifecycle standard, not unlimited manual follow-up.</h2>
+          <p>
+            As of the June 29 review date, 763 unset leads were at least 30 days old. More than half had fewer than 20 calls, while 332 had already reached 20+ calls.
+          </p>
+          <p>
+            The answer is a clearer operating model: pursue early, nurture thoughtfully, then close or recycle after a defined threshold.
+          </p>
+        </div>
+        <div class="chart-panel">
+          <div class="chart-title">
+            <strong>30+ day unset leads by call volume</strong>
+            <span>763 total aged unset leads</span>
+          </div>
+          <div class="stacked" aria-label="Aged unset leads by call count">
+            <div class="stack-segment green" style="width: 47%"><b>355</b><span>&lt;10 calls</span></div>
+            <div class="stack-segment amber" style="width: 10%"><b>76</b><span>10-19</span></div>
+            <div class="stack-segment red" style="width: 43%"><b>332</b><span>20+</span></div>
+          </div>
+          <div class="lifecycle">
+            <span>Day 0: respond</span>
+            <span>Days 1-7: structured follow-up</span>
+            <span>Days 8-30: nurture</span>
+            <span>30+: close or recycle</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section state-product" id="state-product" data-section="State/Product">
+        <div class="section-heading">
+          <p class="eyebrow">Spend allocation</p>
+          <h2>State/product economics show where the next dollar should go.</h2>
+          <p>
+            The table estimates spend by applying blended CPL to each state/product combination. Use the controls to switch the view between spend, net revenue, and ROAS.
+          </p>
+        </div>
+        <div class="toolbar" role="group" aria-label="State product chart metric">
+          <button class="chip active" type="button" data-metric="estSpend">Estimated spend</button>
+          <button class="chip" type="button" data-metric="netRevenue">Net revenue</button>
+          <button class="chip" type="button" data-metric="netRoas">Net ROAS</button>
+        </div>
+        <div class="state-layout">
+          <div class="chart-panel">
+            <div class="chart-title">
+              <strong id="stateChartTitle">Estimated spend by state/product</strong>
+              <span>Chart labels show exact values</span>
+            </div>
+            <div id="stateBars" class="dynamic-bars"></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>State/Product</th>
+                  <th>Leads</th>
+                  <th>Est. spend</th>
+                  <th>Net revenue</th>
+                  <th>Net ROAS</th>
+                </tr>
+              </thead>
+              <tbody id="stateTable"></tbody>
+            </table>
+          </div>
+        </div>
+        <p class="data-note">
+          Highest Net ROAS is highlighted in green. The lowest Net ROAS segments are highlighted in red. Patio Slider is now included as a high-signal test segment; it was previously easy to omit when filtering for larger-volume categories.
+        </p>
+      </section>
+
+      <section class="section matrix-section" id="growth-matrix" data-section="Growth Matrix">
+        <div class="section-heading compact">
+          <p class="eyebrow">Growth matrix</p>
+          <h2>Scale, test, optimize, or investigate based on state/product evidence.</h2>
+        </div>
+        <div class="matrix-controls" role="group" aria-label="Growth matrix filters">
+          <button class="chip active" type="button" data-filter="all">All</button>
+          <button class="chip" type="button" data-filter="scale">Scale</button>
+          <button class="chip" type="button" data-filter="test">Test</button>
+          <button class="chip" type="button" data-filter="optimize">Optimize</button>
+          <button class="chip" type="button" data-filter="investigate">Investigate</button>
+        </div>
+        <div class="matrix-grid" id="matrixGrid"></div>
+      </section>
+
+      <section class="section tools" id="tools" data-section="Angi Tools">
+        <div class="tools-copy">
+          <p class="eyebrow">Angi product enablement</p>
+          <h2>Convert faster by pairing spend strategy with response tools.</h2>
+          <p>
+            Britni's should confirm that automated responses, app messaging, lead status discipline, and CRM routing are fully operational before the next review.
+          </p>
+          <div class="source-links">
+            <a href="https://intercom.help/angi/en/articles/11158066-how-to-set-up-automated-responses" target="_blank" rel="noreferrer">Automated responses</a>
+            <a href="https://play.google.com/store/apps/details?id=com.servicemagic.pros" target="_blank" rel="noreferrer">Angi for Pros app</a>
+            <a href="https://www.servicetitan.com/blog/success-story-barron-integration-of-servicetitan-angi-leads" target="_blank" rel="noreferrer">Related integration case study</a>
+          </div>
+        </div>
+        <div class="tools-visual" aria-label="Angi automated response and pro app messaging examples">
+          <img src="./assets/angi-auto-responses.webp" alt="Angi automated messages example on a mobile phone" />
+          <img src="./assets/angi-pro-app-messaging.webp" alt="Angi pro app messaging example for a home service professional" />
+        </div>
+      </section>
+
+      <section class="section split" id="operating-plan" data-section="Operating Plan">
+        <div>
+          <p class="eyebrow">30-day operating plan</p>
+          <h2>Make the first response faster and the follow-up rules clearer.</h2>
+          <p>
+            The operating plan should improve Lead-to-Set without encouraging endless manual calling. The goal is faster conversion and better rep focus.
+          </p>
+        </div>
+        <div class="steps">
+          <article><b>1</b><strong>Enable automation</strong><span>Automated first response for all new Angi leads.</span></article>
+          <article><b>2</b><strong>Set speed SLA</strong><span>Call and message within 15 minutes when staffed.</span></article>
+          <article><b>3</b><strong>Standardize status</strong><span>Require owner, status, notes, and win/loss reason.</span></article>
+          <article><b>4</b><strong>Cap manual chase</strong><span>Move stale leads to nurture after a defined threshold.</span></article>
+        </div>
+      </section>
+
+      <section class="section scenario" id="scenario" data-section="Spend Model">
+        <div class="section-heading">
+          <p class="eyebrow">Smart spend scenario</p>
+          <h2>Estimate ROAS from a moderate, better-targeted budget increase.</h2>
+          <p>
+            This model keeps the current $15K monthly baseline in place and estimates how smarter incremental spend can lift overall ROAS when directed toward higher-return state/product pockets, with a limited test allocation for Patio Slider.
+          </p>
+        </div>
+        <div class="scenario-grid">
+          <div class="slider-panel">
+            <label for="spendSlider">Incremental monthly spend</label>
+            <input id="spendSlider" type="range" min="0" max="7500" value="3000" step="500" />
+            <div class="slider-labels">
+              <span>$0</span>
+              <strong id="spendValue">$3,000</strong>
+              <span>$7,500</span>
+            </div>
+            <div class="allocation">
+              <span><b>70%</b> proven state/product pockets</span>
+              <span><b>20%</b> Patio Slider test</span>
+              <span><b>10%</b> core optimization</span>
+            </div>
+          </div>
+          <div class="scenario-results" id="scenarioResults"></div>
+        </div>
+      </section>
+
+      <section class="section recommendation" id="plan" data-section="Recommendation">
+        <div>
+          <p class="eyebrow">Expansion recommendation</p>
+          <h2>Increase spend moderately now where the evidence is strongest.</h2>
+          <p>
+            Britni's should make an immediate moderate investment in the most promising, higher-return products and regions. Keep core products funded while these early findings are proven, and use the next call to inspect results rather than waiting for every guardrail to be fully mature.
+          </p>
+        </div>
+        <div class="recommendation-list">
+          <article>
+            <strong>Increase now</strong>
+            <span>Add moderate incremental spend to NJ Windows, CT Doors, VA Doors, DE Doors, NY Doors, and tightly capped Patio Slider tests.</span>
           </article>
-          <article class="segmentCard bad">
-            <h3>&gt;20 calls</h3>
-            <div class="segmentStats">
-              <span><b>344</b> leads</span><span><b>16,630</b> calls</span><span><b>1</b> sold</span><span><b>$0</b> net revenue</span>
-            </div>
+          <article>
+            <strong>Protect core</strong>
+            <span>Do not reduce spend on core products yet. Optimize weaker state pockets while the stronger signals are validated.</span>
+          </article>
+          <article>
+            <strong>Review next call</strong>
+            <span>Review Lead-to-Set, set volume, sold jobs, net revenue, and ROAS by state/product on the next call.</span>
           </article>
         </div>
-        <div class="split">
-          <div class="chartPanel"><div class="panelHeader"><h3>Call activity</h3><span>calls</span></div><div id="callActivityChart" class="barChart"></div></div>
-          <div class="chartPanel"><div class="panelHeader"><h3>Net revenue</h3><span>$000s</span></div><div id="callRevenueChart" class="barChart"></div></div>
-        </div>
-        <div class="takeawayBand red">
-          <div><b>Recommendation:</b> shift from call-volume effort to conversion-efficient effort. Cap manual pursuit of stale/nonresponsive leads and reallocate rep time toward new, high-intent leads.</div>
-        </div>
       </section>
 
-      <section id="lifecycle" class="page light" data-title="Lead Lifecycle">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Lead lifecycle discipline</div>
-          <h2>Aged unset leads need a clear follow-up standard</h2>
-          <p>763 leads are 30+ days old and still unset. Coverage is inconsistent: some are underworked, while others have absorbed significant effort without setting.</p>
+      <section class="section measurement" id="measurement" data-section="Measurement">
+        <div class="section-heading compact">
+          <p class="eyebrow">Next review</p>
+          <h2>Start the moderate increase now, then review results on the next call.</h2>
+          <p>
+            The next review should confirm whether the incremental spend is improving return without pulling budget away from Britni's core products too early.
+          </p>
         </div>
-        <div class="split">
-          <div class="chartPanel">
-            <div class="panelHeader"><h3>30+ day unset leads by call volume</h3><span>lead count</span></div>
-            <div id="agedLeadChart" class="barChart"></div>
-          </div>
-          <div class="timelineCard">
-            <h3>Recommended lead lifecycle</h3>
-            <ol class="timeline">
-              <li><b>Day 0</b><span>Immediate response + multi-channel first touch</span></li>
-              <li><b>Days 1–7</b><span>Structured cadence with clear owner</span></li>
-              <li><b>Days 8–30</b><span>Lower-cost nurture / reactivation</span></li>
-              <li><b>30+ days</b><span>Recycle, close, or automate only</span></li>
-            </ol>
-          </div>
-        </div>
-        <div class="takeawayBand amber"><div><b>Operating principle:</b> define when a lead is active, when it moves to nurture, and when high-value sales time should stop.</div></div>
-      </section>
-
-      <section id="state-product" class="page" data-title="Spend Allocation">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Segment economics</div>
-          <h2>Spend allocation by state & product</h2>
-          <p>Spend is concentrated in a few large segments, but return varies materially. Segment spend is estimated using blended CPL because actual lead cost by state/product was not provided.</p>
-        </div>
-        <div class="dataControl">
-          <button class="chip active" data-chart="spend">Estimated spend</button>
-          <button class="chip" data-chart="roas">Net ROAS</button>
-          <button class="chip" data-chart="revenue">Net revenue</button>
-        </div>
-        <div class="split wideLeft">
-          <div class="tableWrap">
-            <table id="stateProductTable"></table>
-          </div>
-          <div class="chartPanel">
-            <div class="panelHeader"><h3 id="stateChartTitle">Estimated spend</h3><span id="stateChartSub">Top segments</span></div>
-            <div id="stateProductChart" class="hBarChart"></div>
-          </div>
-        </div>
-        <div class="takeawayBand blue"><div><b>Key point:</b> NJ Doors is the largest spend pool, but several smaller segments deliver stronger return. Growth should be based on state/product economics, not aggregate performance.</div></div>
-      </section>
-
-      <section id="matrix" class="page light" data-title="Growth Matrix">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Growth prioritization</div>
-          <h2>State/product growth matrix</h2>
-          <p>Scale proven segments, test high-signal pockets, and investigate low-return combinations before adding budget.</p>
-        </div>
-        <div class="matrixFilters" id="matrixFilters"></div>
-        <div class="growthMatrix" id="growthMatrix"></div>
-      </section>
-
-      <section id="product-tools" class="page" data-title="Angi Tools">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Angi tools</div>
-          <h2>Product enablement: convert faster, not just more often</h2>
-          <p>Use Angi response and messaging tools to support speed-to-lead, structured follow-up, and cleaner routing.</p>
-        </div>
-        <div class="productGrid">
-          <figure class="phoneShot">
-            <img src="assets/angi-auto-responses.webp" alt="Angi automated responses help center screenshot" />
-            <figcaption>Automated responses</figcaption>
-          </figure>
-          <figure class="appShot">
-            <img src="assets/angi-pro-app-messaging.webp" alt="Angi Pro app messaging screenshot" />
-            <figcaption>App / web messaging</figcaption>
-          </figure>
-          <div class="toolCards">
-            <article><h3>Automated first response</h3><p>Enable automated responses so every new lead receives an immediate first touch.</p></article>
-            <article><h3>App / web messaging</h3><p>Use Angi messaging alongside calls and email to reach homeowners in-channel.</p></article>
-            <article><h3>Status discipline</h3><p>Track lead status, notes, and outcomes so nonresponsive leads move into nurture or closeout.</p></article>
-            <article><h3>CRM routing example</h3><p>CRM integration can reduce manual handling and help teams capture every lead.</p></article>
-          </div>
-        </div>
-        <div class="sourceLinks">
-          <a target="_blank" rel="noreferrer" href="https://intercom.help/angi/en/articles/11158066-how-to-set-up-automated-responses">Angi automated responses</a>
-          <a target="_blank" rel="noreferrer" href="https://play.google.com/store/apps/details?id=com.servicemagic.pros">Angi for Pros app listing</a>
-          <a target="_blank" rel="noreferrer" href="https://www.servicetitan.com/blog/success-story-barron-integration-of-servicetitan-angi-leads">Related Angi Leads + CRM integration case</a>
-        </div>
-      </section>
-
-      <section id="plan" class="page light" data-title="30-Day Plan">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Execution plan</div>
-          <h2>30-day operating plan</h2>
-          <p>Reset the lead lifecycle, protect rep time, and improve conversion before scaling spend.</p>
-        </div>
-        <div class="roadmap" id="roadmap"></div>
-        <div class="takeawayBand amber"><div><b>Operating principle:</b> manual rep time should be reserved for leads with recency, responsiveness, and economic fit; stale leads should move to nurture or closeout.</div></div>
-      </section>
-
-      <section id="scenario" class="page" data-title="ROAS Scenario">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Sensitivity model</div>
-          <h2>ROAS improvement scenario</h2>
-          <p>Small improvements in Lead → Set conversion create meaningful upside before adding more spend.</p>
-        </div>
-        <div class="scenarioLayout">
-          <div class="sliderPanel">
-            <label for="setRateSlider">Lead → Set rate</label>
-            <input id="setRateSlider" type="range" min="17" max="25" value="22" step="1" />
-            <div class="sliderTicks"><span>17%</span><span>20%</span><span>22%</span><span>25%</span></div>
-            <div class="scenarioMetrics" id="scenarioMetrics"></div>
-            <p class="chartNote">Assumption: downstream conversion and average net revenue per sold job remain constant.</p>
-          </div>
-          <div class="chartPanel"><div class="panelHeader"><h3>Estimated net revenue</h3><span>dynamic scenario</span></div><div id="scenarioChart" class="barChart"></div></div>
-        </div>
-      </section>
-
-      <section id="growth" class="page light" data-title="Expansion Plan">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Growth plan</div>
-          <h2>Expansion recommendation</h2>
-          <p>Expand only after conversion guardrails are in place — and focus spend on the strongest state/product pockets.</p>
-        </div>
-        <div class="expansionGrid">
-          <article><span>1</span><h3>Optimize</h3><p>30-day operating reset: lead lifecycle, speed-to-lead, high-call cap, and status discipline.</p></article>
-          <article><span>2</span><h3>Reallocate</h3><p>Shift mix within current spend toward NJ Windows, CT Doors, VA Doors, DE Doors, and other proven segments.</p></article>
-          <article><span>3</span><h3>Test scale</h3><p>Pilot $18K–$20K/month in priority state/product pockets once conversion and capacity guardrails hold.</p></article>
-        </div>
-        <div class="guardrailBox">
-          <h3>Scale guardrails</h3>
-          <ul>
-            <li>Set rate improves vs. 17% baseline</li>
-            <li>&gt;20-call manual effort declines</li>
-            <li>Net ROAS holds above target</li>
-            <li>State/product mix is controlled</li>
-            <li>Sales / install capacity confirmed</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="measurement" class="page" data-title="Measurement Plan">
-        <div class="sectionHeader compact">
-          <div class="eyebrow">Accountability metrics</div>
-          <h2>Measurement plan for next QBR</h2>
-          <p>The next review should measure whether Britni improved conversion quality, resource allocation, and segment-level return.</p>
-        </div>
-        <div class="tableWrap full"><table id="measurementTable"></table></div>
-        <div class="decisionRule">
-          <h3>Next QBR decision rule</h3>
-          <p>If response discipline improves, high-call waste declines, and ROAS holds in priority state/product segments, approve controlled incremental spend. If not, continue optimization and reallocation before scaling.</p>
+        <div class="scorecard">
+          <span>Lead-to-Set %</span>
+          <span>New lead response time</span>
+          <span>Manual calls per aged lead</span>
+          <span>Set rate by state/product</span>
+          <span>Sold jobs by state/product</span>
+          <span>Net revenue</span>
+          <span>Net ROAS</span>
+          <span>Win/loss reason capture</span>
         </div>
       </section>
     </main>
 
-    <div id="presentControls" class="presentControls" hidden>
-      <button id="prevSlide" aria-label="Previous section">←</button>
-      <span id="presentCount">1 / 13</span>
-      <button id="nextSlide" aria-label="Next section">→</button>
-      <button id="exitPresent" aria-label="Exit present mode">Exit</button>
+    <div class="present-controls" id="presentControls" aria-label="Presentation controls">
+      <button type="button" id="prevSection">Previous</button>
+      <span id="sectionCounter">1 / 13</span>
+      <button type="button" id="nextSection">Next</button>
     </div>
 
-    <script src="app.js"></script>
+    <script src="./app.js"></script>
   </body>
 </html>
