@@ -138,6 +138,7 @@ const stateProduct = [
   { segment: 'RI Doors', leads: 56, spend: 4.7, revenue: 10.6, roas: 2.23, color: COLORS.orange },
   { segment: 'NJ Doors', leads: 365, spend: 30.9, revenue: 60.6, roas: 1.96, color: COLORS.angi },
   { segment: 'CT Windows', leads: 63, spend: 5.3, revenue: 0, roas: 0, color: COLORS.red },
+  { segment: 'NY Windows', leads: 39, spend: 3.3, revenue: 0, roas: 0, color: COLORS.red },
   { segment: 'PA Doors', leads: 11, spend: 0.9, revenue: 0, roas: 0, color: COLORS.red },
   { segment: 'CT Patio Slider', leads: 4, spend: 0.3, revenue: 0, roas: 0, color: COLORS.red },
   { segment: 'DE Patio Slider', leads: 4, spend: 0.3, revenue: 0, roas: 0, color: COLORS.red },
@@ -151,20 +152,22 @@ function roasCell(d) {
   return `<span class="${klass}">${roas(d.roas)}</span>`;
 }
 createTable('stateProductTable', ['State / Product', 'Leads', 'Est. Spend', 'Net Revenue', 'Net ROAS'],
-  stateProduct.map(d => [d.segment, d.leads.toLocaleString(), moneyK(d.spend), moneyK(d.revenue), roasCell(d)]));
+  [...stateProduct]
+    .sort((a, b) => b.leads - a.leads)
+    .map(d => [d.segment, d.leads.toLocaleString(), moneyK(d.spend), moneyK(d.revenue), roasCell(d)]));
 
 const stateChartTitle = document.getElementById('stateChartTitle');
 const stateChartSub = document.getElementById('stateChartSub');
 function renderStateChart(type = 'spend') {
   const config = {
-    spend: { key: 'spend', title: 'Estimated spend', sub: 'Top segments by allocated spend', formatter: moneyK },
-    roas: { key: 'roas', title: 'Net ROAS', sub: 'Return by state/product', formatter: roas },
-    revenue: { key: 'revenue', title: 'Net revenue', sub: 'Revenue by state/product', formatter: moneyK },
+    spend: { key: 'spend', title: 'Estimated spend', sub: 'Sorted by lead volume', formatter: moneyK },
+    roas: { key: 'roas', title: 'Net ROAS', sub: 'Sorted by lead volume', formatter: roas },
+    revenue: { key: 'revenue', title: 'Net revenue', sub: 'Sorted by lead volume', formatter: moneyK },
   }[type];
   stateChartTitle.textContent = config.title;
   stateChartSub.textContent = config.sub;
   const data = [...stateProduct]
-    .sort((a, b) => b[config.key] - a[config.key])
+    .sort((a, b) => b.leads - a.leads)
     .map(d => ({
       label: d.segment,
       value: d[config.key],
@@ -209,9 +212,37 @@ const roadmap = [
 document.getElementById('roadmap').innerHTML = roadmap.map((r, i) => `
   <article class="roadItem"><span>${i + 1}</span><h3>${r.title}</h3><ul>${r.items.map(v => `<li>${v}</li>`).join('')}</ul></article>`).join('');
 
+const scenarioMap = {
+  17: { sold: 40, rev: 262.7, roas: 2.92 },
+  18: { sold: 42, rev: 275.9, roas: 3.07 },
+  19: { sold: 45, rev: 295.6, roas: 3.28 },
+  20: { sold: 47, rev: 308.7, roas: 3.43 },
+  21: { sold: 49, rev: 321.8, roas: 3.58 },
+  22: { sold: 52, rev: 341.5, roas: 3.79 },
+  23: { sold: 54, rev: 354.6, roas: 3.94 },
+  24: { sold: 56, rev: 367.8, roas: 4.09 },
+  25: { sold: 59, rev: 387.5, roas: 4.31 },
+};
 const setRateSlider = document.getElementById('setRateSlider');
 function renderScenario() {
-  const spend = Number(setRateSlider.value);
+  const rate = setRateSlider.value;
+  const s = scenarioMap[rate];
+  document.getElementById('scenarioMetrics').innerHTML = `
+    <div class="miniMetric"><span>Lead → Set</span><b>${rate}%</b></div>
+    <div class="miniMetric"><span>Estimated sold</span><b>${s.sold}</b></div>
+    <div class="miniMetric"><span>Net revenue</span><b>${moneyK(s.rev)}</b></div>
+    <div class="miniMetric"><span>Net ROAS</span><b>${roas(s.roas)}</b></div>`;
+  verticalBars('scenarioChart', [
+    { label: 'Current 17%', value: 262.7, display: '$263K', color: COLORS.blue },
+    { label: `${rate}% scenario`, value: s.rev, display: moneyK(s.rev), color: COLORS.green },
+  ], { max: 400 });
+}
+setRateSlider.addEventListener('input', renderScenario);
+renderScenario();
+
+const spendSlider = document.getElementById('spendSlider');
+function renderSpendScenario() {
+  const spend = Number(spendSlider.value);
   const baselineSpend = 15000;
   const baselineRevenue = 262686 / 6;
   const baselineRoas = baselineRevenue / baselineSpend;
@@ -221,18 +252,18 @@ function renderScenario() {
   const projectedSpend = baselineSpend + spend;
   const projectedRoas = projectedRevenue / projectedSpend;
   const lift = projectedRoas - baselineRoas;
-  document.getElementById('scenarioMetrics').innerHTML = `
+  document.getElementById('spendScenarioMetrics').innerHTML = `
     <div class="miniMetric"><span>Incremental spend</span><b>${money(spend)}</b></div>
     <div class="miniMetric"><span>Smarter spend ROAS</span><b>${roas(smarterIncrementalRoas)}</b></div>
     <div class="miniMetric"><span>Projected net ROAS</span><b>${roas(projectedRoas)}</b></div>
     <div class="miniMetric"><span>Estimated lift</span><b>+${roas(lift)}</b></div>`;
-  verticalBars('scenarioChart', [
+  verticalBars('spendScenarioChart', [
     { label: 'Current monthly', value: baselineRevenue / 1000, display: moneyK(baselineRevenue / 1000), color: COLORS.blue },
     { label: 'Projected monthly', value: projectedRevenue / 1000, display: moneyK(projectedRevenue / 1000), color: COLORS.green },
   ], { max: 80 });
 }
-setRateSlider.addEventListener('input', renderScenario);
-renderScenario();
+spendSlider.addEventListener('input', renderSpendScenario);
+renderSpendScenario();
 
 createTable('measurementTable', ['Focus area', 'Primary metric', 'Watch metric', 'Action trigger'], [
   ['Response discipline', 'Speed-to-lead', '% first touch <15 minutes', 'Automated response enabled'],
